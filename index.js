@@ -15,10 +15,10 @@ phoneBook.find('777');
 // Сергей, +7 (999) 666-7-778, gogolef@yandex-team.ru
 // Олег, +7 (999) 777-7-777, just7@yandex-team.ru
 
-phoneBook.remove('Олег');
+phoneBook.remove('Сергей');
 // Выводит количество удалённых контактов, которые удовлетворят запросу:
 // Удален 1 контакт
-
+/*
 // Выводит записи в виде красивой таблички
 phoneBook.showTable();
 // Выводит
@@ -33,3 +33,4 @@ phoneBook.showTable();
 // Экспортируем записи, пример файла рядом
 phoneBook.importFromCsv('./backup.csv');
 // Добавлено 4 контакта
+*/

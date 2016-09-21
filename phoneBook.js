@@ -1,6 +1,6 @@
 'use strict';
 
-var phoneBook; // Здесь вы храните записи как хотите
+var phoneBook = []; // Здесь вы храните записи как хотите
 
 /*
    Функция добавления записи в телефонную книгу.
@@ -9,7 +9,22 @@ var phoneBook; // Здесь вы храните записи как хотит�
 module.exports.add = function add(name, phone, email) {
 
     // Ваша невероятная магия здесь
+    var phoneFormatted = phone.replace(/\s/g, '').replace(/(?!^)-/g, '');
+    var regPhone = /(\+?\d+)?(\(\d{3}\)|\d{3})\d{7}/;
+    var isValidPhone = regPhone.test(phoneFormatted);
 
+    var regEmail = /\w+?@[\wа-я-]+?\.[\wа-я-]+/;
+    var isValidEmail = regEmail.test(email);
+
+    if (isValidPhone && isValidEmail) {
+        phoneBook.push({
+            name: name,
+            phone: phoneFormatted,
+            email: email
+        })
+    } else {
+        console.log('Пожалуйста, используйте валидный номер телефона и адрес электронной почты');
+    }
 };
 
 /*
@@ -19,16 +34,37 @@ module.exports.add = function add(name, phone, email) {
 module.exports.find = function find(query) {
 
     // Ваша удивительная магия здесь
-
+    var matchedContacts = [];
+    function showContacts(matchedContacts) {
+        for (var i = 0; i < matchedContacts.length; i++) {
+            console.log(matchedContacts[i].name + ', ' + matchedContacts[i].phone + ', ' + matchedContacts[i].email);
+        }
+    }
+    !query ? matchedContacts = phoneBook :
+        phoneBook.forEach(function(contact) {
+            for (var field in contact) {
+                contact[field].indexOf(query) !== -1 ? matchedContacts.push(contact) : false;
+            };
+        });
+    matchedContacts.length ? showContacts(matchedContacts) : console.log('По запросу ' + query + ' ничего не нашли.');
 };
 
 /*
    Функция удаления записи в телефонной книге.
 */
 module.exports.remove = function remove(query) {
-
     // Ваша необьяснимая магия здесь
-
+    var deletedContactsCount = 0;
+    phoneBook = phoneBook.filter(function(contact) {
+        for (var field in contact) {
+            if (contact[field].indexOf(query) !== -1) {
+                deletedContactsCount++;
+                return false;
+            };
+        };
+        return true;
+    });
+    deletedContactsCount ? console.log('Удалено ' + deletedContactsCount + ' контактов.') : false;
 };
 
 /*
